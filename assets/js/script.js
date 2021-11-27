@@ -1,86 +1,10 @@
 // Assignment code here
 // assign variables
-const charLower = [
-  "a",
-  "b",
-  "c",
-  "d",
-  "e",
-  "f",
-  "g",
-  "h",
-  "i",
-  "j",
-  "k",
-  "l",
-  "m",
-  "n",
-  "o",
-  "p",
-  "q",
-  "r",
-  "s",
-  "t",
-  "u",
-  "v",
-  "w",
-  "x",
-  "y",
-  "z",
-];
-const charUpper = [
-  "A",
-  "B",
-  "C",
-  "D",
-  "E",
-  "F",
-  "G",
-  "H",
-  "I",
-  "J",
-  "K",
-  "L",
-  "M",
-  "N",
-  "O",
-  "P",
-  "Q",
-  "R",
-  "S",
-  "T",
-  "U",
-  "V",
-  "W",
-  "X",
-  "Y",
-  "Z",
-];
-const charNumber = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-const charSymbol = [
-  "*",
-  ";",
-  "<",
-  ">",
-  "(",
-  ")",
-  "[",
-  "]",
-  "{",
-  "}",
-  "#",
-  "$",
-  "?",
-  "!",
-  "^",
-  "|",
-];
-const characters = [
-  "abcdefghijklmnopqrstuvwxyz",
-  "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
-  "0123456789",
-  "!\"#$%&()*+,-./:;<=>?@[\\]^_`{|}~'",
-];
+const charLowercase = ["abcdefghijklmnopqrstuvwxyz"];
+const charUppercase = ["ABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+const charNumber = ["1234567890"];
+const charSymbol = ["!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"];
+let selectCharacters = [];
 var completePassword = [];
 var confirmLowercase = null;
 var confirmUppercase = null;
@@ -93,15 +17,18 @@ var setLength = function () {
   promptLength = window.prompt(
     "Pick a password length between 8 and 128 characters!"
   );
-  promptLength = parseInt(promptLength);
-
-  // Return error if not between 8 and 128
-  while (promptLength < 8 || promptLength > 128) {
-    promptLength = window.prompt(
+  if (
+    promptLength < 8 ||
+    promptLength > 128 ||
+    promptLength === null ||
+    promptLength === ""
+  ) {
+    window.alert(
       "You may not be responisible enough to control something that needs a password if you can't pick a number between 8 and 128. Try again!"
     );
-    promptLength = parseInt(promptLength);
+    return setLength();
   }
+  promptLength = parseInt(promptLength);
 };
 
 var setCharacters = function () {
@@ -124,6 +51,22 @@ var setCharacters = function () {
     confirmSpecial = confirm("Would you like to use special characters?");
 
     // If none selected return warning and reloop
+    if (confirmLowercase) {
+      selectCharacters += charLowercase;
+      selectCharacters += ",";
+    }
+    if (confirmUppercase) {
+      selectCharacters += charUppercase;
+      selectCharacters += ",";
+    }
+    if (confirmNumbers) {
+      selectCharacters += charNumber;
+      selectCharacters += ",";
+    }
+    if (confirmSpecial) {
+      selectCharacters += charSymbol;
+      selectCharacters += ",";
+    }
     if (
       !confirmLowercase &&
       !confirmUppercase &&
@@ -137,6 +80,7 @@ var setCharacters = function () {
       break;
     }
   }
+  
 };
 
 var convertPasswordString = function () {
@@ -154,10 +98,14 @@ var resetVariables = function () {
   promptLength = null;
 };
 
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
 function copyPassword() {
   var copyText = document.getElementById("password");
   copyText.select();
-  copyText.setSelectionRange(0,99999);
+  copyText.setSelectionRange(0, 99999);
   navigator.clipboard.writeText(copyText.value);
   alert("Copied Password: " + copyText.value);
 }
@@ -170,18 +118,15 @@ function generatePassword() {
   //loop randomizer until password length is achieved
   for (let i = 0; i < promptLength; i++) {
     //Push new random to password string use y for new entry
-    y = 1;
-    completePassword.push(y);
-  }
-
-
-
-
-  
-  // Convert password to string
-  convertPasswordString();
-  // Return Password
+    n = getRandomInt(selectCharacters.length + 1);
+    console.log(n);
+    completePassword.push(selectCharacters[n]);
+    console.log(completePassword);
+    console.log(selectCharacters);
+    convertPasswordString();
+  };
   resetVariables();
+  console.log(tempPass);
   return tempPass;
 }
 
