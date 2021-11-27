@@ -53,19 +53,15 @@ var setCharacters = function () {
     // If none selected return warning and reloop
     if (confirmLowercase) {
       selectCharacters += charLowercase;
-      selectCharacters += ",";
-    }
+      }
     if (confirmUppercase) {
       selectCharacters += charUppercase;
-      selectCharacters += ",";
     }
     if (confirmNumbers) {
       selectCharacters += charNumber;
-      selectCharacters += ",";
     }
     if (confirmSpecial) {
       selectCharacters += charSymbol;
-      selectCharacters += ",";
     }
     if (
       !confirmLowercase &&
@@ -90,6 +86,7 @@ var convertPasswordString = function () {
 };
 
 var resetVariables = function () {
+  selectCharacters = [];
   completePassword = [];
   confirmLowercase = null;
   confirmUppercase = null;
@@ -118,15 +115,11 @@ function generatePassword() {
   //loop randomizer until password length is achieved
   for (let i = 0; i < promptLength; i++) {
     //Push new random to password string use y for new entry
-    n = getRandomInt(selectCharacters.length + 1);
-    console.log(n);
+    n = getRandomInt(selectCharacters.length);
     completePassword.push(selectCharacters[n]);
-    console.log(completePassword);
-    console.log(selectCharacters);
     convertPasswordString();
   };
   resetVariables();
-  console.log(tempPass);
   return tempPass;
 }
 
