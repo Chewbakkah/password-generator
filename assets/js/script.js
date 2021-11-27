@@ -13,6 +13,7 @@ var confirmSpecial = null;
 var promptLength = null;
 var tempPass = null;
 
+//Prompt and set password length
 var setLength = function () {
   promptLength = window.prompt(
     "Pick a password length between 8 and 128 characters!"
@@ -31,6 +32,7 @@ var setLength = function () {
   promptLength = parseInt(promptLength);
 };
 
+//Verify character type via prompt and push to selection array
 var setCharacters = function () {
   // Prompt for lowercase
   while (
@@ -50,7 +52,7 @@ var setCharacters = function () {
     // Prompt for special characters
     confirmSpecial = confirm("Would you like to use special characters?");
 
-    // If none selected return warning and reloop
+   //Add True values to selection array
     if (confirmLowercase) {
       selectCharacters += charLowercase;
       }
@@ -63,6 +65,7 @@ var setCharacters = function () {
     if (confirmSpecial) {
       selectCharacters += charSymbol;
     }
+     // If none selected return warning and reloop
     if (
       !confirmLowercase &&
       !confirmUppercase &&
@@ -79,12 +82,13 @@ var setCharacters = function () {
   
 };
 
+//Convert array to string and push to final array
 var convertPasswordString = function () {
-  //pull password from string
   completePassword.toString();
   tempPass = completePassword.join("");
 };
 
+//Reset variables so that program can be used without refresh
 var resetVariables = function () {
   selectCharacters = [];
   completePassword = [];
@@ -95,10 +99,12 @@ var resetVariables = function () {
   promptLength = null;
 };
 
+//Random number generator
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
 }
 
+//Copy password button function
 function copyPassword() {
   var copyText = document.getElementById("password");
   copyText.select();
@@ -107,14 +113,12 @@ function copyPassword() {
   alert("Copied Password: " + copyText.value);
 }
 
+//Main function to assemble minor functions
 function generatePassword() {
   setLength();
-  setCharacters();
-
-  // Generate Password
+  setCharacters();  
   //loop randomizer until password length is achieved
   for (let i = 0; i < promptLength; i++) {
-    //Push new random to password string use y for new entry
     n = getRandomInt(selectCharacters.length);
     completePassword.push(selectCharacters[n]);
     convertPasswordString();
