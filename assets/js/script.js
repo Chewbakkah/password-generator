@@ -23,13 +23,19 @@ var setLength = function () {
     promptLength > 128 ||
     promptLength === null ||
     promptLength === ""
-  ) {
+  ){ 
     window.alert(
       "You may not be responisible enough to control something that needs a password if you can't pick a number between 8 and 128. Try again!"
     );
     return setLength();
-  }
+    }
   promptLength = parseInt(promptLength);
+  if (isNaN(promptLength)){
+    window.alert(
+      "YOU'RE KILLING ME SMALLS! Letters are not numbers. Try again!"
+    );
+    return setLength();
+  }
 };
 
 //Verify character type via prompt and push to selection array
